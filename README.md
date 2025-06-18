@@ -1,5 +1,4 @@
-# eeg-stress-detector-
-A Streamlit-based deep learning app for detecting stress from EEG signals
+
 # eeg-stress-detector-
 A Streamlit-based deep learning app for detecting stress from EEG signals
 
@@ -67,4 +66,10 @@ streamlit run app.py
    Get a prediction (Stressed or Not Stressed)
 
    Check stress score and waveform preview
+
+   ## 🧠 Model Training Notebook
+
+You can view the full training & evaluation code in the notebook here:  
+👉 [EEG_model_training.ipynb](EEG_model_training.ipynb)
+
 
