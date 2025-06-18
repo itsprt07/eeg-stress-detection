@@ -10,6 +10,34 @@ st.set_page_config(page_title="🧠 EEG Stress Detection", layout="centered")
 st.markdown(
     """
     <style>
+    @media screen and (max-width: 768px) {
+        .title {
+            font-size: 28px !important;
+        }
+        .sub {
+            font-size: 16px !important;
+        }
+        .score-label {
+            font-size: 18px !important;
+        }
+        .element-container .stButton>button {
+            font-size: 14px !important;
+            padding: 8px 12px;
+        }
+    }
+
+    @media screen and (max-width: 480px) {
+        .title {
+            font-size: 24px !important;
+        }
+        .sub {
+            font-size: 14px !important;
+        }
+        .score-label {
+            font-size: 16px !important;
+        }
+    }
+
     .title {
         font-size: 40px;
         font-weight: bold;
@@ -33,13 +61,11 @@ st.markdown(
         padding: 10px;
         border-radius: 10px;
     }
-    .slider .stSlider > div > div {
-        background-color: #b7f0ad !important;
-    }
     </style>
     """,
     unsafe_allow_html=True,
 )
+
 
 st.markdown('<div class="title">🧠 EEG Stress Detection App</div>', unsafe_allow_html=True)
 st.markdown('<div class="sub">Upload a <code>.mat</code> EEG file to estimate your stress level visually and numerically.</div>', unsafe_allow_html=True)
