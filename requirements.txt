@@ -1,7 +1,6 @@
-streamlit
-tensorflow==2.16.1
+gradio
+tensorflow==2.10.1
 numpy
 scipy
 scikit-learn
 matplotlib
-# rebuild trigger
