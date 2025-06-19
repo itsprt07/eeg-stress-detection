@@ -4,74 +4,68 @@ import numpy as np
 import scipy.io
 import matplotlib.pyplot as plt
 from sklearn.preprocessing import StandardScaler
+import os
 
 # Page setup
 st.set_page_config(page_title="🧠 EEG Stress Detection", layout="centered")
-st.markdown(
-    """
-    <style>
-    @media screen and (max-width: 768px) {
-        .title {
-            font-size: 28px !important;
-        }
-        .sub {
-            font-size: 16px !important;
-        }
-        .score-label {
-            font-size: 18px !important;
-        }
-        .element-container .stButton>button {
-            font-size: 14px !important;
-            padding: 8px 12px;
-        }
+st.markdown("""
+<style>
+@media screen and (max-width: 768px) {
+    .title { font-size: 28px !important; }
+    .sub { font-size: 16px !important; }
+    .score-label { font-size: 18px !important; }
+    .element-container .stButton>button {
+        font-size: 14px !important;
+        padding: 8px 12px;
     }
-
-    @media screen and (max-width: 480px) {
-        .title {
-            font-size: 24px !important;
-        }
-        .sub {
-            font-size: 14px !important;
-        }
-        .score-label {
-            font-size: 16px !important;
-        }
-    }
-
-    .title {
-        font-size: 40px;
-        font-weight: bold;
-        text-align: center;
-        color: #2E86AB;
-        margin-bottom: 20px;
-    }
-    .sub {
-        font-size: 20px;
-        text-align: center;
-        color: #ccc;
-        margin-bottom: 30px;
-    }
-    .score-label {
-        font-size: 24px;
-        font-weight: bold;
-        color: white;
-        text-align: center;
-        margin-bottom: 10px;
-        background-color: #1a1a1a;
-        padding: 10px;
-        border-radius: 10px;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True,
-)
-
+}
+@media screen and (max-width: 480px) {
+    .title { font-size: 24px !important; }
+    .sub { font-size: 14px !important; }
+    .score-label { font-size: 16px !important; }
+}
+.title {
+    font-size: 40px;
+    font-weight: bold;
+    text-align: center;
+    color: #2E86AB;
+    margin-bottom: 20px;
+}
+.sub {
+    font-size: 20px;
+    text-align: center;
+    color: #ccc;
+    margin-bottom: 30px;
+}
+.score-label {
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    margin-bottom: 10px;
+    background-color: #1a1a1a;
+    padding: 10px;
+    border-radius: 10px;
+}
+</style>
+""", unsafe_allow_html=True)
 
 st.markdown('<div class="title">🧠 EEG Stress Detection App</div>', unsafe_allow_html=True)
 st.markdown('<div class="sub">Upload a <code>.mat</code> EEG file to estimate your stress level visually and numerically.</div>', unsafe_allow_html=True)
 
 # Load model
-model = tf.keras.models.load_model("my_model.h5")
+model = None
+try:
+    model = tf.keras.models.load_model("my_model.h5")
+    st.success("✅ Loaded model from my_model.h5")
+except Exception as e:
+    try:
+        model = tf.keras.models.load_model("saved_model")
+        st.success("✅ Loaded model from saved_model/")
+    except Exception as inner_e:
+        st.error("❌ Failed to load model. Please check if the model file is correct or use the SavedModel format.")
+        st.stop()
+
 expected_shape = model.input_shape
 st.info(f"📐 Model expects input shape: {expected_shape}")
 
@@ -139,4 +133,3 @@ try:
 
 except Exception as e:
     st.error(f"❌ Error processing file: `{e}`")
-# trigger streamlit rebuild
