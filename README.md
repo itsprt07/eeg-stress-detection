@@ -1,3 +1,14 @@
+---
+title: EEG Stress Detection App
+emoji: 🧠
+colorFrom: blue
+colorTo: pink
+sdk: streamlit
+sdk_version: 1.46.0
+app_file: app.py
+pinned: false
+---
+
 
 # eeg-stress-detector-
 A Streamlit-based deep learning app for detecting stress from EEG signals
