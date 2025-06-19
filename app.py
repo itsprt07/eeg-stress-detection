@@ -66,7 +66,8 @@ except Exception as e:
         st.error("❌ Failed to load model. Please check if the model file is correct or use the SavedModel format.")
         st.stop()
 
-expected_shape = model.input_shape
+# FIXED SHAPE ACCESS ✅
+expected_shape = model.inputs[0].shape if hasattr(model, "inputs") else "Unknown"
 st.info(f"📐 Model expects input shape: {expected_shape}")
 
 # File uploader
