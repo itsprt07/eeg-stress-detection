@@ -55,14 +55,17 @@ st.markdown('<div class="sub">Upload a <code>.mat</code> EEG file to estimate yo
 
 # Load model
 model = None
+use_serving = False
+
 try:
     model = tf.keras.models.load_model("my_model.h5")
     st.success("✅ Loaded model from my_model.h5")
-except Exception as e:
+except Exception:
     try:
         model = tf.keras.models.load_model("saved_model")
+        use_serving = True
         st.success("✅ Loaded model from saved_model/")
-    except Exception as inner_e:
+    except Exception:
         st.error("❌ Failed to load model. Please check if the model file is correct or use the SavedModel format.")
         st.stop()
 
@@ -112,9 +115,16 @@ try:
 
     st.success(f"✅ Processed {segments.shape[0]} EEG segments.")
 
-    # Simulate prediction delay
+    # Predict
     with st.spinner("🧠 Estimating your stress level..."):
-        predictions = model.predict(segments)
+        if use_serving:
+            infer = model.signatures["serving_default"]
+            input_name = list(infer.structured_input_signature[1].keys())[0]
+            output = infer(tf.convert_to_tensor(segments, dtype=tf.float32))
+            predictions = output[list(output.keys())[0]].numpy()
+        else:
+            predictions = model.predict(segments)
+
         avg_pred = np.mean(predictions)
 
     # Output
