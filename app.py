@@ -69,9 +69,10 @@ except Exception:
         st.error("❌ Failed to load model. Please check if the model file is correct or use the SavedModel format.")
         st.stop()
 
-# FIXED SHAPE ACCESS ✅
+# Input shape display
 expected_shape = model.inputs[0].shape if hasattr(model, "inputs") else "Unknown"
-st.info(f"📐 Model expects input shape: {expected_shape}")
+if expected_shape != "Unknown":
+    st.info(f"📐 Model expects input shape: {expected_shape}")
 
 # File uploader
 uploaded_file = st.file_uploader("📁 Upload your EEG .mat file", type=["mat"])
